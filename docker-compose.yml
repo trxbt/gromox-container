@@ -3,13 +3,6 @@ name: grommunio
 networks:
   grommunio:
     driver: bridge
-    enable_ipv6: true
-    ipam:
-      config:
-        - subnet: 172.31.0.0/24
-          gateway: 172.31.0.1
-        - subnet: "fd00:1::/64"
-          gateway: "fd00:1::1"
 
 volumes:
   gromox_services:
