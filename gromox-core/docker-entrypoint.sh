@@ -37,6 +37,11 @@ if [ ! -f "${MARKER_DIR}/entry_done" ]; then
   touch "${MARKER_DIR}/entry_done"
 fi
 
+# Ensure critical symlinks exist on every start (entrypoint.sh only runs once,
+# but these paths are on the container's ephemeral filesystem and are lost on restart)
+mkdir -p /etc/grommunio-admin-common
+ln -sf /etc/grommunio-common/nginx/ssl_certificate.conf /etc/grommunio-admin-common/nginx-ssl.conf
+
 # ── Port remapping ─────────────────────────────────────────────────
 # Remap nginx to listen on high ports (>1024) so no privileges needed.
 # The actual listen directives are in the included files under /usr/share/.
