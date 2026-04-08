@@ -218,7 +218,7 @@ services:
       ORGANIZATION: mxhost
       TIMEZONE: Europe/Istanbul
       RELAYHOST: ""
-      SSL_INSTALL_TYPE: "2"
+      SSL_INSTALL_TYPE: "0"
       SSL_EMAIL: admin@mxhost.tr
       ENABLE_ARCHIVE: "false"
       ENABLE_OFFICE: "false"
