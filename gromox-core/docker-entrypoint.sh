@@ -70,6 +70,8 @@ for f in /usr/share/grommunio-common/nginx.conf /etc/nginx/nginx.conf; do
   [ -f "$f" ] || continue
   sed -i 's/\blisten\s\+80\b/listen 8080/g; s/\blisten\s\+\[::]\:80\b/listen [::]:8080/g' "$f"
   sed -i 's/\blisten\s\+443\b/listen 8443/g; s/\blisten\s\+\[::]\:443\b/listen [::]:8443/g' "$f"
+  # Remove HTTP→HTTPS redirect so Traefik can proxy HTTP to the container
+  sed -i 's|return 301 https://\$host\$request_uri;|# return 301 https://$host$request_uri; # disabled for reverse proxy|g' "$f"
 done
 
 # Admin HTTP: 8080 -> 9080 (avoid conflict with remapped web port)
