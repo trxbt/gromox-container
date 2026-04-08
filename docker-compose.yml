@@ -3,6 +3,8 @@ name: grommunio
 networks:
   grommunio:
     driver: bridge
+  coolify:
+    external: true
 
 volumes:
   gromox_services:
@@ -184,6 +186,7 @@ services:
       grommunio:
         aliases:
           - gromox-core
+      coolify:
     environment:
       container: docker
       MYSQL_ROOT_PASS: GrommunioRoot2026!
