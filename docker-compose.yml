@@ -178,6 +178,7 @@ services:
     expose:
       - "8080"       # nginx HTTP  (web, used by Coolify Traefik)
       - "8443"       # nginx HTTPS (web, after 443→8443 remap)
+      - "9080"       # nginx HTTP  (admin panel, after 8080→9080 remap)
       - "9443"       # nginx HTTPS (admin panel, after 8443→9443 remap)
     dns:
       - 127.0.0.11
