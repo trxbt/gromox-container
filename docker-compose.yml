@@ -27,17 +27,7 @@ volumes:
   gromox:
   gromox_config:
   variables_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/variables_data
   gromox_letsencrypt:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/gromox_letsencrypt
 
 services:
   gromox-db:
@@ -179,14 +169,12 @@ services:
       - gromox_letsencrypt:/etc/letsencrypt
     ports:
       - "25:2525"    # SMTP
-      - "80:8080"    # HTTP / Letsencrypt challenges
-      - "443:8443"   # HTTPS / Grommunio Web
       - "465:2465"   # SMTPS
+      - "587:2587"   # SMTP Submission
       - "993:2993"   # IMAPS
+      - "995:2995"   # POP3S
       - "110:2110"   # POP3
       - "143:2143"   # IMAP
-      - "587:2587"   # SMTP Submission
-      - "995:2995"   # POP3S
       - "8443:9443"  # Grommunio Admin / HTTPS alternative
     dns:
       - 127.0.0.11
