@@ -166,14 +166,14 @@ services:
       - gromox_config:/etc/gromox
       - gromox_letsencrypt:/etc/letsencrypt
     ports:
-      - "25:2525"    # SMTP
-      - "465:2465"   # SMTPS
-      - "587:2587"   # SMTP Submission
-      - "993:2993"   # IMAPS
-      - "995:2995"   # POP3S
-      - "110:2110"   # POP3
-      - "143:2143"   # IMAP
-      - "8443:443"   # Grommunio Admin / HTTPS (Coolify proxies to internal 443)
+      - "25:25"      # SMTP (postfix)
+      - "465:465"    # SMTPS
+      - "587:587"    # SMTP Submission
+      - "993:993"    # IMAPS
+      - "995:995"    # POP3S
+      - "110:110"    # POP3
+      - "143:143"    # IMAP
+      - "8443:443"   # Grommunio Web/Admin (nginx listens on 443 inside)
     dns:
       - 127.0.0.11
       - 8.8.8.8
@@ -261,6 +261,11 @@ services:
       FQDN: mxhost.tr
       DOMAIN: mxhost.tr
       LOGFILE: /var/log/grommunio-setup.log
+      SSL_INSTALL_TYPE: "0"
+      ARCHIVE_MYSQL_HOST: archive-db
+      ARCHIVE_MYSQL_USER: groarchive
+      ARCHIVE_MYSQL_PASS: grommunio
+      ARCHIVE_MYSQL_DB: groarchive
     depends_on:
       gromox-db:
         condition: service_healthy
@@ -291,6 +296,7 @@ services:
       FQDN: mxhost.tr
       DOMAIN: mxhost.tr
       LOGFILE: /var/log/grommunio-setup.log
+      SSL_INSTALL_TYPE: "0"
     depends_on:
       gromox-db:
         condition: service_healthy
