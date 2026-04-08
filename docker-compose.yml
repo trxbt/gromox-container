@@ -155,22 +155,6 @@ services:
       context: ./
       dockerfile: ./gromox-core/Dockerfile
     restart: on-failure
-    labels:
-      - "traefik.enable=true"
-      # Web (port 8080 HTTP)
-      - "traefik.http.routers.grommunio-web.rule=Host(`mxhost.tr`) || Host(`mail.mxhost.tr`) || Host(`autodiscover.mxhost.tr`) || Host(`autoconfig.mxhost.tr`)"
-      - "traefik.http.routers.grommunio-web.service=grommunio-web-svc"
-      - "traefik.http.services.grommunio-web-svc.loadbalancer.server.port=8080"
-      # Admin (port 9443 HTTPS, self-signed → insecureSkipVerify)
-      - "traefik.http.routers.grommunio-admin.rule=Host(`admin.mxhost.tr`)"
-      - "traefik.http.routers.grommunio-admin.service=grommunio-admin-svc"
-      - "traefik.http.routers.grommunio-admin.tls=true"
-      - "traefik.http.services.grommunio-admin-svc.loadbalancer.server.port=9443"
-      - "traefik.http.services.grommunio-admin-svc.loadbalancer.server.scheme=https"
-      - "traefik.http.services.grommunio-admin-svc.loadbalancer.passhostheader=true"
-      - "traefik.http.middlewares.grommunio-admin-tls.passtlsclientcert.pem=true"
-      - "traefik.serversTransport.grommunio-admin-transport.insecureSkipVerify=true"
-      - "traefik.http.services.grommunio-admin-svc.loadbalancer.serverstransport=grommunio-admin-transport"
     volumes:
       - opensuse_data:/data
       - variables_data:/home/vars
