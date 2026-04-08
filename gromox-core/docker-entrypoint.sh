@@ -51,6 +51,14 @@ EOF
 # Fix admin-api socket permissions after uwsgi starts (nginx worker needs access)
 (sleep 10 && chmod 666 /run/grommunio/admin-api.socket) &
 
+# Remove HTTP→HTTPS redirect on every start so reverse proxy (Traefik) can proxy HTTP
+sed -i 's|return 301 https://\$host\$request_uri;|# return 301 https://$host$request_uri;|g' \
+  /usr/share/grommunio-common/nginx.conf 2>/dev/null || true
+
+# Add location blocks to HTTP (8080) server so content is served over HTTP too
+sed -i 's|include /usr/share/grommunio-common/nginx/traffic_status_params\*.conf;$|include /usr/share/grommunio-common/nginx/traffic_status_params*.conf;\n        include /etc/grommunio-common/nginx/locations.d/*.conf;\n        include /usr/share/grommunio-common/nginx/locations.d/*.conf;|' \
+  /usr/share/grommunio-common/nginx.conf 2>/dev/null || true
+
 # Ensure critical nginx SSL config files exist on every start.
 # entrypoint.sh only runs once (entry_done marker), but these paths are on the
 # container's ephemeral filesystem and are lost on every restart.
