@@ -27,10 +27,10 @@ services:
     image: mariadb:10
     container_name: gromox-db
     environment:
-      MARIADB_ROOT_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_ROOT_PASSWORD: GrommunioRoot2026!
       MARIADB_DATABASE: grommunio
       MARIADB_USER: grommunio
-      MARIADB_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_PASSWORD: GrommunioDb2026!
     volumes:
       - gromox_mysql_data:/var/lib/mysql
     restart: on-failure
@@ -51,7 +51,7 @@ services:
     image: mariadb:10
     container_name: chat-db
     environment:
-      MARIADB_ROOT_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_ROOT_PASSWORD: GrommunioRoot2026!
       MARIADB_DATABASE: grochat
       MARIADB_USER: grochat
       MARIADB_PASSWORD: grommunio
@@ -75,7 +75,7 @@ services:
     image: mariadb:10
     container_name: files-db
     environment:
-      MARIADB_ROOT_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_ROOT_PASSWORD: GrommunioRoot2026!
       MARIADB_DATABASE: grofiles
       MARIADB_USER: grofiles
       MARIADB_PASSWORD: grommunio
@@ -99,7 +99,7 @@ services:
     image: mariadb:10
     container_name: office-db
     environment:
-      MARIADB_ROOT_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_ROOT_PASSWORD: GrommunioRoot2026!
       MARIADB_DATABASE: groffice
       MARIADB_USER: groffice
       MARIADB_PASSWORD: grommunio
@@ -123,7 +123,7 @@ services:
     image: mariadb:10
     container_name: archive-db
     environment:
-      MARIADB_ROOT_PASSWORD: Lu3s3WmFxXghtLwJnuqN
+      MARIADB_ROOT_PASSWORD: GrommunioRoot2026!
       MARIADB_DATABASE: groarchive
       MARIADB_USER: groarchive
       MARIADB_PASSWORD: grommunio
@@ -176,8 +176,50 @@ services:
       grommunio:
         aliases:
           - gromox-core
-    env_file:
-      - var.env
+    environment:
+      container: docker
+      MYSQL_ROOT_PASS: GrommunioRoot2026!
+      MYSQL_HOST: gromox-db
+      MYSQL_USER: grommunio
+      MYSQL_PASS: GrommunioDb2026!
+      MYSQL_DB: grommunio
+      CHAT_MYSQL_ROOT_PASS: GrommunioRoot2026!
+      CHAT_MYSQL_HOST: chat-db
+      CHAT_MYSQL_USER: grochat
+      CHAT_MYSQL_PASS: grommunio
+      CHAT_MYSQL_DB: grochat
+      FILES_MYSQL_ROOT_PASS: GrommunioRoot2026!
+      FILES_MYSQL_HOST: files-db
+      FILES_MYSQL_USER: grofiles
+      FILES_MYSQL_PASS: grommunio
+      FILES_MYSQL_DB: grofiles
+      OFFICE_MYSQL_ROOT_PASS: GrommunioRoot2026!
+      OFFICE_MYSQL_HOST: office-db
+      OFFICE_MYSQL_USER: groffice
+      OFFICE_MYSQL_PASS: grommunio
+      OFFICE_MYSQL_DB: groffice
+      ARCHIVE_MYSQL_ROOT_PASS: GrommunioRoot2026!
+      ARCHIVE_MYSQL_HOST: archive-db
+      ARCHIVE_MYSQL_USER: groarchive
+      ARCHIVE_MYSQL_PASS: grommunio
+      ARCHIVE_MYSQL_DB: groarchive
+      ADMIN_PASS: "Kanxpc192955*"
+      CHAT_ADMIN_PASS: "Kanxpc192955*"
+      FILES_ADMIN_PASS: "Kanxpc192955*"
+      FQDN: mxhost.tr
+      ORIGFQDN: mxhost.tr
+      DOMAIN: mxhost.tr
+      ORIGDOMAIN: mxhost.tr
+      ORGANIZATION: mxhost
+      TIMEZONE: Europe/Istanbul
+      RELAYHOST: ""
+      SSL_INSTALL_TYPE: "2"
+      SSL_EMAIL: admin@mxhost.tr
+      ENABLE_ARCHIVE: "false"
+      ENABLE_OFFICE: "false"
+      ENABLE_FILES: "false"
+      CLEAR_DBS: "true"
+      LOGFILE: /var/log/grommunio-setup.log
     depends_on:
       gromox-db:
         condition: service_healthy
@@ -209,8 +251,11 @@ services:
       grommunio:
         aliases:
           - gromox-archive
-    env_file:
-      - var.env
+    environment:
+      ENABLE_ARCHIVE: "false"
+      FQDN: mxhost.tr
+      DOMAIN: mxhost.tr
+      LOGFILE: /var/log/grommunio-setup.log
     depends_on:
       gromox-db:
         condition: service_healthy
@@ -235,8 +280,12 @@ services:
       grommunio:
         aliases:
           - gromox-office
-    env_file:
-      - var.env
+    environment:
+      ENABLE_OFFICE: "false"
+      ENABLE_FILES: "false"
+      FQDN: mxhost.tr
+      DOMAIN: mxhost.tr
+      LOGFILE: /var/log/grommunio-setup.log
     depends_on:
       gromox-db:
         condition: service_healthy
