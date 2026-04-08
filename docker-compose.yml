@@ -173,7 +173,7 @@ services:
       - "995:2995"   # POP3S
       - "110:2110"   # POP3
       - "143:2143"   # IMAP
-      - "8443:9443"  # Grommunio Admin / HTTPS alternative
+      - "8443:443"   # Grommunio Admin / HTTPS (Coolify proxies to internal 443)
     dns:
       - 127.0.0.11
       - 8.8.8.8
