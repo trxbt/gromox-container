@@ -37,6 +37,17 @@ if [ ! -f "${MARKER_DIR}/entry_done" ]; then
   touch "${MARKER_DIR}/entry_done"
 fi
 
+# Regenerate grommunio-admin-api database config on every start
+# (entrypoint.sh only runs once, but /etc paths are ephemeral)
+mkdir -p /etc/grommunio-admin-api/conf.d
+cat > /etc/grommunio-admin-api/conf.d/database.yaml <<EOF
+DB:
+  host: '${MYSQL_HOST}'
+  user: '${MYSQL_USER}'
+  pass: '${MYSQL_PASS}'
+  database: '${MYSQL_DB}'
+EOF
+
 # Ensure critical nginx SSL config files exist on every start.
 # entrypoint.sh only runs once (entry_done marker), but these paths are on the
 # container's ephemeral filesystem and are lost on every restart.
