@@ -175,6 +175,7 @@ services:
       - "995:2995"   # POP3S  (gromox pop3)
       - "110:2110"   # POP3   (gromox pop3)
       - "143:2143"   # IMAP   (gromox imap)
+      - "9443:9443"  # Admin panel HTTPS (direct, bypasses Traefik)
     expose:
       - "8080"       # nginx HTTP  (web, used by Coolify Traefik)
       - "8443"       # nginx HTTPS (web, after 443→8443 remap)
