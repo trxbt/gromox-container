@@ -48,6 +48,9 @@ DB:
   database: '${MYSQL_DB}'
 EOF
 
+# Fix admin-api socket permissions after uwsgi starts (nginx worker needs access)
+(sleep 10 && chmod 666 /run/grommunio/admin-api.socket) &
+
 # Ensure critical nginx SSL config files exist on every start.
 # entrypoint.sh only runs once (entry_done marker), but these paths are on the
 # container's ephemeral filesystem and are lost on every restart.
