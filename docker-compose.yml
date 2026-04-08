@@ -166,14 +166,17 @@ services:
       - gromox_config:/etc/gromox
       - gromox_letsencrypt:/etc/letsencrypt
     ports:
-      - "25:25"      # SMTP (postfix)
-      - "465:465"    # SMTPS
-      - "587:587"    # SMTP Submission
-      - "993:993"    # IMAPS
-      - "995:995"    # POP3S
-      - "110:110"    # POP3
-      - "143:143"    # IMAP
-      - "8443:443"   # Grommunio Web/Admin (nginx listens on 443 inside)
+      - "25:2525"    # SMTP   (postfix remapped to 2525 by docker-entrypoint.sh)
+      - "465:2465"   # SMTPS  (postfix)
+      - "587:2587"   # SMTP Submission (postfix)
+      - "993:2993"   # IMAPS  (gromox imap)
+      - "995:2995"   # POP3S  (gromox pop3)
+      - "110:2110"   # POP3   (gromox pop3)
+      - "143:2143"   # IMAP   (gromox imap)
+    expose:
+      - "8080"       # nginx HTTP  (web, used by Coolify Traefik)
+      - "8443"       # nginx HTTPS (web, after 443→8443 remap)
+      - "9443"       # nginx HTTPS (admin panel, after 8443→9443 remap)
     dns:
       - 127.0.0.11
       - 8.8.8.8
@@ -225,6 +228,7 @@ services:
       ENABLE_FILES: "false"
       CLEAR_DBS: "true"
       LOGFILE: /var/log/grommunio-setup.log
+      CHAT_CONFIG: /etc/grommunio-chat/config.json
     depends_on:
       gromox-db:
         condition: service_healthy
