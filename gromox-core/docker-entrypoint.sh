@@ -37,9 +37,13 @@ if [ ! -f "${MARKER_DIR}/entry_done" ]; then
   touch "${MARKER_DIR}/entry_done"
 fi
 
-# Ensure critical symlinks exist on every start (entrypoint.sh only runs once,
-# but these paths are on the container's ephemeral filesystem and are lost on restart)
-mkdir -p /etc/grommunio-admin-common
+# Ensure critical nginx SSL config files exist on every start.
+# entrypoint.sh only runs once (entry_done marker), but these paths are on the
+# container's ephemeral filesystem and are lost on every restart.
+mkdir -p /etc/grommunio-common/nginx /etc/grommunio-admin-common
+if [ ! -f /etc/grommunio-common/nginx/ssl_certificate.conf ]; then
+  cp /home/config/certificate.conf /etc/grommunio-common/nginx/ssl_certificate.conf
+fi
 ln -sf /etc/grommunio-common/nginx/ssl_certificate.conf /etc/grommunio-admin-common/nginx-ssl.conf
 
 # ── Port remapping ─────────────────────────────────────────────────
